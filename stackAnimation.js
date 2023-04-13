@@ -251,38 +251,50 @@ function searchContents() {
       alert("Please enter a valid number!");
       return;
     }
-    let position = pushedArrayValue.indexOf(searchEle);
-    if (position >= 0) {
-      let searchedEle = pushedArray[position];
-      searchedEle.classList.add("highlight");
-      searchedEle.classList.add("filter");
-      searchedEle.scrollIntoView();
-
-      // generate random color
-      let colorInterval = setInterval(function () {
-        searchedEle.style.backgroundImage = 'none'; // remove background image
-        let r = Math.floor(Math.random() * 255);
-        let g = Math.floor(Math.random() * 255);
-        let b = Math.floor(Math.random() * 255);
-        searchedEle.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-      }, 10);
-
-      let positionElement = document.createElement("div");
-      positionElement.classList.add("position");
-      positionElement.innerText = `Position: ${position + 1}`;
-      let searchEleId = `pushed-content${position + 1}`;
-      let positionEle = document.createElement("span");
-      positionEle.innerText = position;
-      positionEle.classList.add("position");
-      searchedEle.appendChild(positionEle);
-
-      setTimeout(function () {
+    let positions = [];
+    pushedArrayValue.forEach(function (value, index) {
+      if (value === searchEle) {
+        positions.push(index);
+      }
+    });
+    if (positions.length > 0) {
+      let searchedEles = document.querySelectorAll(".pushed-content");
+      searchedEles.forEach(function (searchedEle) {
         searchedEle.classList.remove("highlight");
-        searchedEle.style.backgroundColor='';
-        searchedEle.style.backgroundImage = 'url(image.png)'; // restore background image
-        positionEle.remove();
-        clearInterval(colorInterval); // stop changing color
-      }, 5000); // timeout of 5 seconds
+        searchedEle.classList.remove("filter");
+      });
+      positions.forEach(function (position) {
+        let searchedEle = pushedArray[position];
+        searchedEle.classList.add("highlight");
+        searchedEle.classList.add("filter");
+        searchedEle.scrollIntoView();
+
+        // generate random color
+        let colorInterval = setInterval(function () {
+          searchedEle.style.backgroundImage = 'none'; // remove background image
+          let r = Math.floor(Math.random() * 255);
+          let g = Math.floor(Math.random() * 255);
+          let b = Math.floor(Math.random() * 255);
+          searchedEle.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        }, 10);
+
+        let positionElement = document.createElement("div");
+        positionElement.classList.add("position");
+        positionElement.innerText = `Position: ${position + 1}`;
+        let searchEleId = `pushed-content${position + 1}`;
+        let positionEle = document.createElement("span");
+        positionEle.innerText = position;
+        positionEle.classList.add("position");
+        searchedEle.appendChild(positionEle);
+
+        setTimeout(function () {
+          searchedEle.classList.remove("highlight");
+          searchedEle.style.backgroundColor='';
+          searchedEle.style.backgroundImage = 'url(image.png)'; // restore background image
+          positionEle.remove();
+          clearInterval(colorInterval); // stop changing color
+        }, 5000); // timeout of 5 seconds
+      });
 
       inputText.value = "";
     } else {
@@ -290,6 +302,7 @@ function searchContents() {
     }
   }
 }
+
 
 
 
