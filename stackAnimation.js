@@ -198,6 +198,51 @@ function popContents() {
 //     }
 //   }
 // }
+// function searchContents() {
+//   let searchEle;
+//   searchBtn.onclick = function () {
+//     searchEle = parseInt(inputText.value);
+//     if (isNaN(searchEle)) {
+//       alert("Please enter a valid number!");
+//       return;
+//     }
+//     let position = pushedArrayValue.indexOf(searchEle);
+//     if (position >= 0) {
+//       let searchedEle = pushedArray[position];
+//       searchedEle.classList.add("highlight");
+//       searchedEle.classList.add("filter");
+//       searchedEle.scrollIntoView();
+
+//       // Generate random color
+//       let colorInterval = setInterval(function () {
+//         let r = Math.floor(Math.random() * 255);
+//         let g = Math.floor(Math.random() * 255);
+//         let b = Math.floor(Math.random() * 255);
+//         searchedEle.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+//       }, 10);
+
+//       let positionElement = document.createElement("div");
+//       positionElement.classList.add("position");
+//       positionElement.innerText = `Position: ${position + 1}`;
+//       let searchEleId = `pushed-content${position + 1}`;
+//       let positionEle = document.createElement("span");
+//       positionEle.innerText = position;
+//       positionEle.classList.add("position");
+//       searchedEle.appendChild(positionEle);
+
+//       setTimeout(function () {
+//         searchedEle.classList.remove("highlight");
+//         searchedEle.style.backgroundColor = ''; // Remove the background color
+//         positionEle.remove();
+//         clearInterval(colorInterval); // Stop changing color
+//       }, 5000); // Timeout of 5 seconds
+
+//       inputText.value = "";
+//     } else {
+//       alert(`The element "${searchEle}" is not found in the stack!`);
+//     }
+//   }
+// }
 function searchContents() {
   let searchEle;
   searchBtn.onclick = function () {
@@ -215,6 +260,7 @@ function searchContents() {
 
       // generate random color
       let colorInterval = setInterval(function () {
+        searchedEle.style.backgroundImage = 'none'; // remove background image
         let r = Math.floor(Math.random() * 255);
         let g = Math.floor(Math.random() * 255);
         let b = Math.floor(Math.random() * 255);
@@ -233,6 +279,7 @@ function searchContents() {
       setTimeout(function () {
         searchedEle.classList.remove("highlight");
         searchedEle.style.backgroundColor='';
+        searchedEle.style.backgroundImage = 'url(image.png)'; // restore background image
         positionEle.remove();
         clearInterval(colorInterval); // stop changing color
       }, 5000); // timeout of 5 seconds
@@ -243,6 +290,8 @@ function searchContents() {
     }
   }
 }
+
+
 
 
 
