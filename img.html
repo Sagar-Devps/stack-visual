@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    .stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stack-item {
+      margin-bottom: 10px;
+    }
+
+    .image {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="text" id="input-number" placeholder="Enter a number">
+  <button id="push-button">Push</button>
+  <button id="pop-button">Pop</button>
+
+  <div class="stack" id="push-stack">
+  </div>
+
+  <script>
+    const pushButton = document.getElementById("push-button");
+    const popButton = document.getElementById("pop-button");
+    const inputNumber = document.getElementById("input-number");
+    const pushStack = document.getElementById("push-stack");
+
+    pushButton.addEventListener("click", pushToStack);
+    popButton.addEventListener("click", popFromStack);
+
+    function pushToStack() {
+      const number = inputNumber.value;
+      if (number) {
+        const image = convertToImage(number);
+        pushStack.appendChild(image);
+        inputNumber.value = "";
+      }
+    }
+
+    function popFromStack() {
+      const images = pushStack.getElementsByClassName("image");
+      if (images.length > 0) {
+        pushStack.removeChild(images[images.length - 1]);
+      }
+    }
+
+    function convertToImage(number) {
+      const image = document.createElement("div");
+      image.className = "image";
+      image.textContent = number;
+      return image;
+    }
+  </script>
+</body>
+
+</html>

@@ -3,16 +3,20 @@ const pushBtn = document.getElementById("push");
 const popBtn = document.getElementById("pop");
 const searchBtn = document.getElementById("search");
 const pushedContentContainer = document.getElementById("push-stack");
+const resetBtn = document.getElementById("reset");
 let pushedText;
 let newSpanEle;
+const poppedArray = [];
 const pushedArray = [];
 const pushedArrayValue = [];
+const poppedArrayValue = [];
 let lengthOfPushedArr;
 let bottomValueForPush = 0;
-let bottomValueForPop = 0;
+let bottomValueForPop = 250;
 pushBtn.addEventListener("click", pushContents);
 popBtn.addEventListener("click", popContents);
 searchBtn.addEventListener("click", searchContents);
+resetBtn.addEventListener("click", resetContents);
 // function pushContents()
 // {
 //     let i = 1;
@@ -37,10 +41,36 @@ searchBtn.addEventListener("click", searchContents);
 //         }
 //     });
 // }
+function resetContents() {
+  pushedArray.forEach((ele) => {
+    ele.remove();
+  });
+  poppedArray.forEach((ele) => {
+    ele.remove();
+  });
+
+  pushedArrayValue.splice(0, pushedArrayValue.length);
+  pushedArrayValue.splice(0, pushedArray.length);
+  bottomValueForPush = 0;
+  bottomValueForPop = 250;
+  poppedArray.splice(0, poppedArray.length);
+  poppedArrayValue.splice(0, poppedArrayValue.length);
+  bottomValueForPop = 250;
+
+  // Re-enable the push button
+  pushBtn.disabled = false;
+}
+
+let count = 0;
+
+
 function pushContents() {
   pushedText = inputText.value;
   if (pushedText == "") {
     alert("Please, enter some content!!!");
+  } else if (count == 10) {
+    alert("Stack Overflow!!!");
+    pushBtn.removeEventListener("click", pushContents);
   } else {
     inputText.value = "";
     newSpanEle = document.createElement("span");
@@ -60,29 +90,41 @@ function pushContents() {
     pushedArrayValue.push(parseInt(newSpanEle.innerText));
     pushedContentContainer.appendChild(newSpanEle);
     bottomValueForPush += 40;
+    count++;
   }
 }
 
 
-// function popContents()
-// {
-//     let poppedEle;
-//     popBtn.onclick = function()
-//     {
-//         if(pushedArray == "")
-//             alert("Nothing to pop!!!");
-//         else
-//         {
-//             lengthOfPushedArr = pushedArray.length;
-//             poppedEle = pushedArray[lengthOfPushedArr - 1];
-//             // console.log(poppedEle);
-//             poppedEle.style="--bottom-value: " + bottomValueForPush +"px; --bottom-value-pop-start: " + bottomValueForPush + "px; --bottom-value-pop-end: " + bottomValueForPop +"px;";
-//             poppedEle.style.animation = "popAnimation 3s forwards";
-//             pushedArray.pop();
-//             bottomValueForPop+= 40;
-//             bottomValueForPush-= 40;
-//         }
+// function popContents() {
+//   let poppedEle;
+//   popBtn.onclick = function () {
+//     if (pushedArray == "") {
+//       alert("Nothing to pop!!!");
+//     } else {
+//       lengthOfPushedArr = pushedArray.length;
+//       poppedEle = pushedArray[lengthOfPushedArr - 1];
+//       poppedEle.style =
+//         "--bottom-value: " +
+//         bottomValueForPush +
+//         "px; --bottom-value-pop-start: " +
+//         bottomValueForPush +
+//         "px; --bottom-value-pop-end: " +
+//         bottomValueForPop +
+//         "px;";
+//       poppedEle.style.animation = "popAnimation 3s forwards";
+//       let poppedValue = parseInt(poppedEle.innerText);
+//       pushedArray.pop();
+//       pushedArrayValue.splice(pushedArrayValue.indexOf(poppedValue), 1); // remove the popped value from pushedArrayValue
+//       bottomValueForPop += 40;
+//       bottomValueForPush -= 40;
+//       poppedArray.push(poppedEle);
+//       poppedArrayValue.push(poppedValue);
+//       count--;
+
+//       // Re-enable the push button
+//       pushBtn.disabled = false;
 //     }
+//   };
 // }
 function popContents() {
   let poppedEle;
@@ -106,98 +148,21 @@ function popContents() {
       pushedArrayValue.splice(pushedArrayValue.indexOf(poppedValue), 1); // remove the popped value from pushedArrayValue
       bottomValueForPop += 40;
       bottomValueForPush -= 40;
+      poppedArray.push(poppedEle);
+      poppedArrayValue.push(poppedValue);
+      count--;
+      
+      // re-add the event listener for the push button
+      pushBtn.addEventListener("click", pushContents);
     }
   };
 }
 
-//to search the number in stack and if not found then alert
-//to search the number in stack and if not found then alert
-// function searchContents()
-// {
-//     let searchEle;
-//     searchBtn.onclick = function()
-//     {
-//         searchEle = parseInt(inputText.value);
-//         if(searchEle == "")
-//             alert("Please, enter some content!!!");
-//         else
-//         {
-//             console.log(searchEle)
-//             console.log(pushedArrayValue)
-//             // inputText.value = "";
-//             if(pushedArrayValue.includes(searchEle)) {
-//                 let position = pushedArrayValue.indexOf(searchEle) + 1; // add 1 to get 1-based index
-//                 alert(`The element "${searchEle}" is found at position ${position} in the stack!`);
-//             }
-//             else
-//                 alert(`The element "${searchEle}" is not found in the stack!`);
-//         }
-//     }
-// }
-// function searchContents() {
-//   let searchEle;
-//   searchBtn.onclick = function() {
-//     searchEle = parseInt(inputText.value);
-//     if (searchEle == "") {
-//       alert("Please enter some content!!!");
-//     } else {
-//       console.log(searchEle);
-//       console.log(pushedArrayValue);
-//       if (pushedArrayValue.includes(searchEle)) {
-//         let position = pushedArrayValue.indexOf(searchEle) + 1;
-//         let searchedEle = document.getElementById(`pushed-content${position}`);
-//         searchedEle.classList.add("highlight");
-//         searchedEle.scrollIntoView();
-//         let positionElement = document.createElement("div");
-//         positionElement.classList.add("position");
-//         positionElement.innerText = `Position: ${position}`;
-//         searchedEle.parentElement.appendChild(positionElement);
-//         setTimeout(function() {
-//           searchedEle.classList.remove("highlight");
-//           positionElement.remove();
-//         }, 10000); // timeout of 5 seconds
-//         inputText.value = "";
-//       } else {
-//         alert(`The element "${searchEle}" is not found in the stack!`);
-//         inputText.value = "";
-//       }
-//     }
-//   };
-// }
-// function searchContents() {
-//   let searchEle;
-//   searchBtn.onclick = function() {
-//     searchEle = parseInt(inputText.value);
-//     if (searchEle == "") {
-//       alert("Please enter some content!!!");
-//     } else {
-//       console.log(searchEle);
-//       console.log(pushedArrayValue.length);
-//       if (pushedArrayValue.includes(searchEle)) {
-//         let position = pushedArrayValue.indexOf(searchEle) + 1;
-//         let searchedEle = document.getElementById(`pushed-content${position}`);
-//         searchedEle.classList.add("highlight");
-//         searchedEle.scrollIntoView();
-//         let positionElement = document.createElement("div");
-//         positionElement.classList.add("position");
-//         positionElement.innerText = `Position: ${position}`;
-//         searchedEle.parentElement.appendChild(positionElement);
-//         setTimeout(function() {
-//           searchedEle.classList.remove("highlight");
-//           positionElement.remove();
-//         }, 10000); // timeout of 5 seconds
-//         inputText.value = "";
-//       } else {
-//         alert(`The element "${searchEle}" is not found in the stack!`);
-//         inputText.value = "";
-//       }
-//     }
-//   };
-// }
+
 
 // function searchContents() {
 //   let searchEle;
-//   searchBtn.onclick = function() {
+//   searchBtn.onclick = function () {
 //     searchEle = parseInt(inputText.value);
 //     if (isNaN(searchEle)) {
 //       alert("Please enter a valid number!");
@@ -207,24 +172,31 @@ function popContents() {
 //     if (position >= 0) {
 //       let searchedEle = pushedArray[position];
 //       searchedEle.classList.add("highlight");
+//       searchedEle.classList.add("filter");
 //       searchedEle.scrollIntoView();
 //       let positionElement = document.createElement("div");
 //       positionElement.classList.add("position");
 //       positionElement.innerText = `Position: ${position + 1}`;
-//       searchedEle.parentElement.appendChild(positionElement);
-//       let searchedElePosition = searchedEle.getBoundingClientRect();
-//       let positionElePosition = positionElement.getBoundingClientRect();
-//       positionElement.style.left = searchedElePosition.right + 5 + "px";
-//       positionElement.style.top = searchedElePosition.top - positionElePosition.height + "px";
-//       setTimeout(function() {
+//       // searchedEle.parentElement.appendChild(positionElement);
+//       // let searchedElePosition = searchedEle.getBoundingClientRect();
+//       // let positionElePosition = positionElement.getBoundingClientRect();
+//       // positionElement.style.right = searchedElePosition.left + -1 + "px";
+//       // positionElement.style.top = searchedElePosition.top - positionElePosition.height + "px";
+//       let searchEleId = `pushed-content${position + 1}`;
+//       let positionEle = document.createElement("span");
+//       positionEle.innerText = position;
+//       positionEle.classList.add("position");
+//       searchedEle.appendChild(positionEle);
+//       setTimeout(function () {
 //         searchedEle.classList.remove("highlight");
-//         positionElement.remove();
-//       }, 2345678); // timeout of 5 seconds
+//         positionEle.remove();
+//       }, 5000); // timeout of 5 seconds
+
 //       inputText.value = "";
 //     } else {
 //       alert(`The element "${searchEle}" is not found in the stack!`);
 //     }
-//   };
+//   }
 // }
 function searchContents() {
   let searchEle;
@@ -238,24 +210,31 @@ function searchContents() {
     if (position >= 0) {
       let searchedEle = pushedArray[position];
       searchedEle.classList.add("highlight");
+      searchedEle.classList.add("filter");
       searchedEle.scrollIntoView();
+
+      // generate random color
+      let colorInterval = setInterval(function () {
+        let r = Math.floor(Math.random() * 255);
+        let g = Math.floor(Math.random() * 255);
+        let b = Math.floor(Math.random() * 255);
+        searchedEle.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+      }, 10);
+
       let positionElement = document.createElement("div");
       positionElement.classList.add("position");
       positionElement.innerText = `Position: ${position + 1}`;
-      // searchedEle.parentElement.appendChild(positionElement);
-      // let searchedElePosition = searchedEle.getBoundingClientRect();
-      // let positionElePosition = positionElement.getBoundingClientRect();
-      // positionElement.style.right = searchedElePosition.left + -1 + "px";
-      // positionElement.style.top = searchedElePosition.top - positionElePosition.height + "px";
-      let searchEleId = `pushed-content${pushedArrayValue.indexOf(searchEle)}`;
-      let searchEleSpan = document.getElementById(searchEleId);
+      let searchEleId = `pushed-content${position + 1}`;
       let positionEle = document.createElement("span");
       positionEle.innerText = position;
       positionEle.classList.add("position");
-      searchEleSpan.appendChild(positionEle);
+      searchedEle.appendChild(positionEle);
+
       setTimeout(function () {
         searchedEle.classList.remove("highlight");
+        searchedEle.style.backgroundColor='';
         positionEle.remove();
+        clearInterval(colorInterval); // stop changing color
       }, 5000); // timeout of 5 seconds
 
       inputText.value = "";
@@ -270,6 +249,4 @@ function searchContents() {
 
 
 
-// pushContents();
-// popContents();
-// searchContents();
+

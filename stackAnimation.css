@@ -1,5 +1,6 @@
-*, *::before, *::after
-{
+*,
+*::before,
+*::after {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -10,66 +11,78 @@
     --bottom-value: 0;
 } */
 
-input, button
-{
+input,
+button {
     padding: 10px;
     margin: 10px;
 }
 
-#stacks-container
-{
+#stacks-container {
     border: 1px solid red;
     height: 90vh;
     display: grid;
     grid-template-rows: 50% 50%;
-    
+
 
     /* justify-content: space-around; */
     /* align-items: center; */
 }
+
 /* 
   #push-stack{
     overflow: scroll !important;
   } */
 
-#stacks-container > #push-stack
-{
+#stacks-container>#push-stack {
     position: relative;
-    width: 50%;
+    width: 18%;
     margin: auto;
-    background-image: url("images.png");
+    height: 100%;
+    margin-top:100px;
+    margin-left: 300px;
+   
+
+    /* background-image: url("images.png");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
-   
+    background-position: center; */
 
-   
-   
-    
-    
+
+
+
+
+
 }
 
-#stacks-container #push-stack > span.pushed-content
-{
+#stacks-container #push-stack>span.pushed-content {
     /* --bottom-value: 0; */
     position: absolute;
     display: block;
     /* height: 30px; */
-    width: 80%;
+    width: 70%;
     padding: 5px;
     text-align: center;
-    bottom: 100%;
+    bottom: 95%;
     /* top: 0; */
     left: 10%;
-    border: 1px solid #999;
+    border: 1px solid #cc3434;
     border-radius: 5px;
-    /* animation: pushAnimation 1s forwards; */
+    /* background-image: url(image.png);  */
+    mix-blend-mode: difference;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: red;   
+    
+     
 }
+
+
 
 /* #stacks-container #push-stack > span.pushed-content
 { */
-    /* --bottom-value: 0; */
-    /* position: absolute;
+/* --bottom-value: 0; */
+/* position: absolute;
     border: 1px solid maroon;
     display: block;
     width: 80%;
@@ -77,85 +90,94 @@ input, button
     text-align: center;
     bottom: 0;
     left: 10%; */
-    /* transform: translateX(160%); */
-    /* animation: popAnimation 3s forwards;
+/* transform: translateX(160%); */
+/* animation: popAnimation 3s forwards;
 } */
 
-/* #stacks-container > */#pop-stack 
-{
-    width: 50%;
+ #stacks-container >
+#pop-stack {
+    width:40%;
     margin: auto;
-    border: 2px solid lime;
-    border-right:none;
+    border: 15px solid rgb(22, 27, 22);
+    border-right: none;
     padding-left: none;
-    background-color: rgb(206, 206, 247);
+    
 
 }
 
-#stacks-container > .stack
-{
-    border: 10px solid lime;
-    border-radius:10px;
+#stacks-container>.stack {
+    border: 15px solid rgb(70, 172, 70);
+    border-radius: 10px;
     border-top: none;
     height: 40%;
-    border-top: 4px dashed lime;
-    border-bottom: 4px dashed lime;
+    border-top:  2px solid rgb(70, 172, 70);
     display: flex;
-    
+
+}
+/* for changing color while searching */
+@keyframes filterAnimation{
+    0%{
+        /* filter: hue-rotate(0deg); */
+        background-color: red;
+    }
+    100%{
+        /* filter: hue-rotate(270deg); */
+        background-color: green;
+    }
+
+}
+.filter{
+    animation: filterAnimation 20s backwards;
 }
 
-@keyframes pushAnimation
-{
-    0%
-    {
+@keyframes pushAnimation {
+    0% {}
 
-    }
-    100%
-    {
+    100% {
         bottom: var(--bottom-value);
     }
 }
 
-@keyframes popAnimation
-{
-    0%
-    {
+@keyframes popAnimation {
+    0% {
         /* bottom: var(--bottom-value-pop-start); */
         left: 0;
-        width: 100%;
+        width: 200%;
+        transform: translate(0%, 0%) rotate(0deg);
     }
+
     /* 50%
     {
         bottom: 100%;
         transform: rotate(360deg) translateY(560%);
     } */
-    25%
-    {
-        transform: translate(130%, 300%) rotate(-90deg);
+    25% {
+        transform: translate(150%, 600%) rotate(-90deg);
     }
-    50%
-    {
+
+    50% {
         /* transform: rotate(180deg); */
     }
-    75%
-    {
+
+    75% {
         transform: translate(130%, 1800%) rotate(-180deg);
     }
-    100%
-    {
+
+    100% {
         /* bottom: var(--bottom-value-pop-end); */
         left: var(--bottom-value-pop-end);
         transform: translate(0%, 1800%) rotate(-270deg);
-        width: 15%;
+        width: 30%;
     }
-    
+
 }
-label
-{
+
+label {
     /* display: block;
     margin: 10px; */
-    padding:20px;
+    padding: 20px;
 }
+
 /* .search {
     background-color: yellow;
 }
@@ -164,19 +186,42 @@ label
     margin-left: 5px;
 } */
 .position {
-        position: absolute;
-        background-color: blue;
-        padding: 5px;
-        border-radius: 5px;
-        font-size: 0.8em;
-        left: 100%;
-        top: 0;
-        /* transform: translateY(-50%); */
-      }
-      
-  .highlight {
-    background-color: yellow;
-    }
-/* Add this to your CSS code */
+    position: absolute;
+    background-color: blue;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    left: 140%;
+    top: 0;
+    /* transform: translateY(-50%); */
+}
 
+.position::before {
+     content: "\27F6";
+    position: absolute;
+    top: 50%;
+    right: 100px;
+    transform: translateY(-50%);
+    /* background-color: #ff0000;  */
+    color: #1b1818;
+    padding: 15px;
+    border-radius: 50%;
+    font-size: 3.5em;
+    width:20px;
+
+}
+.highlight{
+    background-image: none;
+    background-color: rgb(255,0,0);
+}
   
+  /* .highlight .position {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #ff0000; /* match arrow color */
+    
+
+
+/* Add this to your CSS code */
